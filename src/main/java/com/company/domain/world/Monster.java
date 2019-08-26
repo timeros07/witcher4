@@ -2,13 +2,13 @@ package com.company.domain.world;
 
 import java.util.List;
 
-public class Monster implements Character{
+public class Monster {
     private String name;
     private String description;
     private List<String> actions;
     private Position position;
+    private int power = 0;
 
-    @Override
     public String getSign() {
         return "X";
     }
@@ -43,5 +43,13 @@ public class Monster implements Character{
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 }

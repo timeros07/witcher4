@@ -1,4 +1,4 @@
-package com.company.domain.exceptions;
+package com.company.application.exceptions;
 
 import com.company.domain.world.Direction;
 

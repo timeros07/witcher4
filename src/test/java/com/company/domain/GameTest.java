@@ -1,6 +1,6 @@
 package com.company.domain;
 
-import com.company.domain.exceptions.StepOutOfMapException;
+import com.company.application.exceptions.StepOutOfMapException;
 import com.company.domain.player.Player;
 import com.company.domain.world.Direction;
 import com.company.domain.world.Game;

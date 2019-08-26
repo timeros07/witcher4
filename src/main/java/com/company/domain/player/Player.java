@@ -1,9 +1,12 @@
 package com.company.domain.player;
 
-import com.company.domain.world.Character;
+import com.company.application.exceptions.PlayerWasKilledException;
+import com.company.domain.world.Monster;
 import com.company.domain.world.Position;
 
-public class Player implements Character {
+import java.util.concurrent.ThreadLocalRandom;
+
+public class Player {
 
     private String name;
     private Position position;
@@ -31,5 +34,12 @@ public class Player implements Character {
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    public void fight(Monster monster) throws PlayerWasKilledException {
+        int value = ThreadLocalRandom.current().nextInt(0, 99);
+        if (value < monster.getPower()) {
+            throw new PlayerWasKilledException();
+        }
     }
 }

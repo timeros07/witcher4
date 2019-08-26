@@ -1,10 +1,11 @@
 package com.company.application;
 
 import com.company.Console;
+import com.company.application.exceptions.SystemException;
 import com.company.domain.player.Player;
 import com.company.domain.world.*;
+import com.company.xml.GameReader;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Scanner;
  */
 public class CreateCharacterView {
 
-    public void run() {
+    public void run() throws SystemException {
         Console.writeInConsole(Console.Color.BLUE, "##################         CHARACTER CREATION      #####################");
         Console.writeInConsole(Console.Color.BLUE, "Provide player's name:");
         Scanner scanner = new Scanner(System.in);
@@ -20,24 +21,16 @@ public class CreateCharacterView {
         Console.writeInConsole(Console.Color.BLUE, "Welcome " + answer + ", let's start a game...");
 
 
-
-        GameView gameView = new GameView();
-        gameView.run(initGame(answer));
-    }
-
-    public Game initGame(String playerName) {
+        GameReader reader = new GameReader();
+        Game game = reader.readDefaultGame();
         Player player = new Player();
-        player.setName(playerName);
-        player.setPosition(new Position(0, 0));
+        player.setPosition(new Position(0,0));
         player.setSign("$");
+        player.setName(answer);
+        game.setPlayer(player);
+        GameView gameView = new GameView(game);
 
-        Friend vesemir = new Friend();
-        vesemir.setName("Vesemir");
-        vesemir.setPosition(new Position(2,2));
 
-        Monster vivern = new Monster();
-        vivern.setName("Viverna");
-        vivern.setPosition(new Position(1,3));
-        return new Game(4, Arrays.asList(vesemir, vivern), player);
+        gameView.run();
     }
 }

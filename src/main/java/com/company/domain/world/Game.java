@@ -1,6 +1,6 @@
 package com.company.domain.world;
 
-import com.company.domain.exceptions.StepOutOfMapException;
+import com.company.application.exceptions.StepOutOfMapException;
 import com.company.domain.player.Player;
 
 import java.util.List;
@@ -12,10 +12,7 @@ public class Game {
     private Point[][] worldMap;
     private Player player;
 
-    public Game() {
-    }
-
-    public Game(int size, List<Character> characters, Player player) {
+    public Game(int size, List<Monster> monsters, Player player) {
         this.worldMap = new Point[size][size];
         this.player = player;
         for (int i = 0; i < size; i++) {
@@ -23,15 +20,14 @@ public class Game {
                 getWorldMap()[i][j] = new Point();
             }
         }
-        characters.forEach(c->addCharacter(c));
-        addCharacter(player);
+        monsters.forEach(c->addMonster(c));
     }
 
-    private void addCharacter(Character character) {
-        getWorldMap()[character.getPosition().getX()][character.getPosition().getY()].setCharacter(character);
+    private void addMonster(Monster monster) {
+        getWorldMap()[monster.getPosition().getX()][monster.getPosition().getY()].setMonster(monster);
     }
 
-    public void makeStep(Direction direction) throws StepOutOfMapException {
+    public Monster makeStep(Direction direction) throws StepOutOfMapException {
         Position newPosition = new Position(player.getPosition().getX(), player.getPosition().getY());
         switch(direction) {
             case LEFT:
@@ -50,10 +46,10 @@ public class Game {
         if (newPosition.getX() < 0 || newPosition.getY() < 0 || newPosition.getX() == worldMap.length || newPosition.getY() == worldMap.length) {
             throw new StepOutOfMapException(direction);
         }
-        worldMap[player.getPosition().getX()][ player.getPosition().getY()].setCharacter(null);
-        worldMap[newPosition.getX()][ newPosition.getY()].setCharacter(player);
         player.setPosition(newPosition);
-
+        Monster monster = worldMap[player.getPosition().getX()][ player.getPosition().getY()].getMonster();
+        worldMap[player.getPosition().getX()][ player.getPosition().getY()].setMonster(null);
+        return monster;
     }
 
     public Point[][] getWorldMap() {
@@ -61,5 +57,9 @@ public class Game {
     }
     public Player getPlayer() {
         return this.player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

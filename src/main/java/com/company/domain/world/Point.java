@@ -1,20 +1,20 @@
 package com.company.domain.world;
 
 public class Point {
-    private Character character;
+    private Monster monster;
 
     public Point() {
     }
 
-    public Point(Monster character) {
-        this.character = character;
+    public Point(Monster monster) {
+        this.monster = monster;
     }
 
-    public Character getCharacter() {
-        return character;
+    public Monster getMonster() {
+        return monster;
     }
 
-    public void setCharacter(Character character) {
-        this.character = character;
+    public void setMonster(Monster monster) {
+        this.monster = monster;
     }
 }

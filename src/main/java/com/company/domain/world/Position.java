@@ -36,7 +36,7 @@ public class Position {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        Position person = (Position) o;
-        return Objects.equals(x, person.x) && Objects.equals(y, person.y);
+        Position position = (Position) o;
+        return Objects.equals(x, position.x) && Objects.equals(y, position.y);
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<game>
+    <mapSize>4</mapSize>
+    <monsters>
+        <monster>
+            <name>Ghule</name>
+            <description>asdf asdf sdaf sdf sda f</description>
+            <power>5</power>
+            <position>
+                <x>0</x>
+                <y>2</y>
+            </position>
+        </monster>
+        <monster>
+            <name>Bruxa</name>
+            <description>sadsadasd</description>
+            <power>95</power>
+            <position>
+                <x>1</x>
+                <y>1</y>
+            </position>
+        </monster>
+    </monsters>
+</game>
