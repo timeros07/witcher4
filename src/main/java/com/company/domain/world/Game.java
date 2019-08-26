@@ -48,7 +48,7 @@ public class Game {
                 break;
         }
         if (newPosition.getX() < 0 || newPosition.getY() < 0 || newPosition.getX() == worldMap.length || newPosition.getY() == worldMap.length) {
-            throw new StepOutOfMapException();
+            throw new StepOutOfMapException(direction);
         }
         worldMap[player.getPosition().getX()][ player.getPosition().getY()].setCharacter(null);
         worldMap[newPosition.getX()][ newPosition.getY()].setCharacter(player);
