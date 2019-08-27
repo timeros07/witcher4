@@ -1,9 +1,10 @@
-package com.company.application;
+package com.company.ui.view;
 
-import com.company.Console;
+import com.company.application.GameService;
 import com.company.application.exceptions.SystemException;
 import com.company.domain.world.Game;
-import com.company.xml.GameReader;
+import com.company.ui.Console;
+import com.company.ui.ViewDispatcher;
 
 import java.util.Scanner;
 
@@ -16,6 +17,12 @@ public class MainMenuView {
         public static final String NEW_GAME = "N";
         public static final String RESUME = "R";
         public static final String EXIT = "E";
+    }
+
+    private GameService gameService;
+
+    public MainMenuView(GameService gameService) {
+        this.gameService = gameService;
     }
 
     public void run() throws SystemException {
@@ -39,14 +46,11 @@ public class MainMenuView {
             String answer = scanner.nextLine();
             switch(answer) {
                 case Options.NEW_GAME:
-                    CreateCharacterView createCharacterView = new CreateCharacterView();
-                    createCharacterView.run();
+                    ViewDispatcher.getInstance().runCreateCharacterView();
                     return;
                 case Options.RESUME:
-                    GameReader reader = new GameReader();
-                    Game game = reader.readGame("save.xml");
-                    GameView gameView = new GameView(game);
-                    gameView.run();
+                    Game game = gameService.loadPreviousGame();
+                    ViewDispatcher.getInstance().runGameView(game);
                     return;
                 case Options.EXIT:
                     return;

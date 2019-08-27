@@ -1,7 +1,6 @@
-package com.company.domain.player;
+package com.company.domain.character;
 
 import com.company.application.exceptions.PlayerWasKilledException;
-import com.company.domain.world.Monster;
 import com.company.domain.world.Position;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -31,9 +30,12 @@ public class Player {
         return "$";
     }
 
+    public int getPlayerPower() {
+        return ThreadLocalRandom.current().nextInt(0, 99);
+    }
+
     public void fight(Monster monster) throws PlayerWasKilledException {
-        int value = ThreadLocalRandom.current().nextInt(0, 99);
-        if (value < monster.getPower()) {
+        if (getPlayerPower() < monster.getPower()) {
             throw new PlayerWasKilledException();
         }
     }

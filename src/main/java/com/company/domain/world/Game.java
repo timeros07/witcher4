@@ -1,7 +1,8 @@
 package com.company.domain.world;
 
 import com.company.application.exceptions.StepOutOfMapException;
-import com.company.domain.player.Player;
+import com.company.domain.character.Monster;
+import com.company.domain.character.Player;
 
 import java.util.List;
 
@@ -43,13 +44,23 @@ public class Game {
                 newPosition.setX(newPosition.getX()+1);
                 break;
         }
-        if (newPosition.getX() < 0 || newPosition.getY() < 0 || newPosition.getX() == worldMap.length || newPosition.getY() == worldMap.length) {
+        if (isOutOfTheMap(newPosition)) {
             throw new StepOutOfMapException(direction);
         }
         player.setPosition(newPosition);
-        Monster monster = worldMap[player.getPosition().getX()][ player.getPosition().getY()].getMonster();
-        worldMap[player.getPosition().getX()][ player.getPosition().getY()].setMonster(null);
+
+        Point point = getPointByPosition(newPosition);
+        Monster monster = point.getMonster();
+        point.setMonster(null);
         return monster;
+    }
+
+    private boolean isOutOfTheMap(Position position) {
+        return position.getX() < 0 || position.getY() < 0 || position.getX() == worldMap.length || position.getY() == worldMap.length;
+    }
+
+    public Point getPointByPosition(Position position) {
+        return worldMap[position.getX()][position.getY()];
     }
 
     public Point[][] getWorldMap() {

@@ -1,14 +1,15 @@
-package com.company.application;
+package com.company.ui.view;
 
-import com.company.Console;
+import com.company.application.GameService;
 import com.company.application.exceptions.PlayerWasKilledException;
 import com.company.application.exceptions.StepOutOfMapException;
 import com.company.application.exceptions.SystemException;
 import com.company.domain.world.Direction;
 import com.company.domain.world.Game;
-import com.company.domain.world.Monster;
+import com.company.domain.character.Monster;
 import com.company.domain.world.Position;
-import com.company.xml.GameWriter;
+import com.company.ui.Console;
+import com.company.ui.Images;
 
 import java.util.Scanner;
 
@@ -19,11 +20,14 @@ public class GameView {
 
     private Game game;
 
-    public GameView(Game game) {
-        this.game = game;
+    private GameService gameService;
+
+    public GameView(GameService gameService) {
+        this.gameService = gameService;
     }
 
-    public void run() throws SystemException {
+    public void run(Game game) throws SystemException {
+        this.game = game;
         Console.getInstance().print(Console.Color.BLUE, "Game started!!!");
         showMenu();
         showMap();
@@ -88,8 +92,7 @@ public class GameView {
                     makeStep(Direction.LEFT);
                     break;
                 case "S":
-                    GameWriter writer = new GameWriter();
-                    writer.saveGame("save.xml", game);
+                    gameService.saveGame(this.game);
                     Console.getInstance().print("Game successfully saved");
                     break;
                 case "E":
@@ -103,7 +106,7 @@ public class GameView {
 
     public void makeStep(Direction direction) throws PlayerWasKilledException {
         try {
-            Monster monster = this.game.makeStep(direction);
+            Monster monster = game.makeStep(direction);
             if (monster != null) {
                 Console.getInstance().print(Console.Color.RED, "Yo've just met a monster!!!, you must fight");
                 Console.getInstance().print(Images.MONSTER);

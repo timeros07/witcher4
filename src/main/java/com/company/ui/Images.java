@@ -1,4 +1,4 @@
-package com.company.application;
+package com.company.ui;
 
 public class Images {
 

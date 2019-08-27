@@ -1,9 +1,9 @@
-package com.company.xml;
+package com.company.infrastructure;
 
 import com.company.application.exceptions.SystemException;
-import com.company.domain.player.Player;
+import com.company.domain.character.Player;
 import com.company.domain.world.Game;
-import com.company.domain.world.Monster;
+import com.company.domain.character.Monster;
 import com.company.domain.world.Point;
 import com.company.domain.world.Position;
 import org.w3c.dom.Document;

@@ -1,7 +1,7 @@
 package com.company.domain;
 
 import com.company.domain.world.Game;
-import com.company.xml.GameReader;
+import com.company.infrastructure.GameReader;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

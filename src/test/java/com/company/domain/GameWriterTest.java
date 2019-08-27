@@ -1,11 +1,11 @@
 package com.company.domain;
 
-import com.company.domain.player.Player;
+import com.company.domain.character.Player;
 import com.company.domain.world.Game;
-import com.company.domain.world.Monster;
+import com.company.domain.character.Monster;
 import com.company.domain.world.Position;
-import com.company.xml.GameReader;
-import com.company.xml.GameWriter;
+import com.company.infrastructure.GameReader;
+import com.company.infrastructure.GameWriter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -51,14 +51,14 @@ public class GameWriterTest {
 
     @After
     public void clear() {
-        File file = new File("save.xml");
+        File file = new File("tmp.xml");
         file.delete();
     }
 
     @Test
     public void saveDefaultGame_success() throws Throwable {
-        writer.saveGame("save.xml", game);
-        Game newGame = gameReader.readGame("save.xml");
+        writer.saveGame("tmp.xml", game);
+        Game newGame = gameReader.readGame("tmp.xml");
 
         Assert.assertEquals(game.getWorldMap().length, newGame.getWorldMap().length);
         Assert.assertEquals(game.getPlayer().getName(), newGame.getPlayer().getName());

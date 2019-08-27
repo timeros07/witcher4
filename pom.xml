@@ -31,7 +31,7 @@
                     <finalName>witcher4</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>com.company.Main</mainClass>
+                            <mainClass>com.company.Witcher4Application</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

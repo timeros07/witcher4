@@ -1,11 +1,12 @@
-package com.company.domain.world;
+package com.company.domain.character;
+
+import com.company.domain.world.Position;
 
 import java.util.List;
 
 public class Monster {
     private String name;
     private String description;
-    private List<String> actions;
     private Position position;
     private int power = 0;
 
@@ -27,14 +28,6 @@ public class Monster {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<String> getActions() {
-        return actions;
-    }
-
-    public void setActions(List<String> actions) {
-        this.actions = actions;
     }
 
     public Position getPosition() {

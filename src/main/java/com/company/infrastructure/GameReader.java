@@ -1,9 +1,9 @@
-package com.company.xml;
+package com.company.infrastructure;
 
 import com.company.application.exceptions.SystemException;
-import com.company.domain.player.Player;
+import com.company.domain.character.Player;
 import com.company.domain.world.Game;
-import com.company.domain.world.Monster;
+import com.company.domain.character.Monster;
 import com.company.domain.world.Position;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,7 +24,12 @@ import java.util.List;
 public class GameReader {
 
     public Game readGame(String path) throws SystemException {
-        Document document = readXmlFile(readExternalFile(path));
+        Document document;
+        try {
+            document = readXmlFile( new FileInputStream(path));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
         return readGame(document);
     }
 
@@ -81,14 +86,6 @@ public class GameReader {
             throw new SystemException("default.xml not found");
         }
         return inputStream;
-    }
-
-    private InputStream readExternalFile(String path) throws SystemException {
-        try {
-            return new FileInputStream(path);
-        } catch (FileNotFoundException e) {
-            throw new SystemException("File: " + path + " not found");
-        }
     }
 
     private Document readXmlFile(InputStream inputStream) throws SystemException {
