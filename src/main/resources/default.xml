@@ -3,8 +3,8 @@
     <mapSize>4</mapSize>
     <monsters>
         <monster>
-            <name>Ghule</name>
-            <description>asdf asdf sdaf sdf sda f</description>
+            <name>Alghoul</name>
+            <description>Alghouls are ghouls which had been devouring corpses for so many years that human flesh becomes irresistible and they begin to prey on the living.</description>
             <power>5</power>
             <position>
                 <x>0</x>
@@ -12,8 +12,8 @@
             </position>
         </monster>
         <monster>
-            <name>Bruxa</name>
-            <description>sadsadasd</description>
+            <name>Wyvern</name>
+            <description>Wyverns are great flying reptiles with snake-like necks and long tails that end in a venomous trident.</description>
             <power>95</power>
             <position>
                 <x>1</x>
@@ -21,4 +21,11 @@
             </position>
         </monster>
     </monsters>
+    <player>
+        <name>Anonymouse</name>
+        <position>
+            <x>0</x>
+            <y>0</y>
+        </position>
+    </player>
 </game>

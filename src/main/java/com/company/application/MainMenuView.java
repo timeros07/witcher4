@@ -2,6 +2,8 @@ package com.company.application;
 
 import com.company.Console;
 import com.company.application.exceptions.SystemException;
+import com.company.domain.world.Game;
+import com.company.xml.GameReader;
 
 import java.util.Scanner;
 
@@ -22,7 +24,7 @@ public class MainMenuView {
     }
 
     public void showMenuWithLogo() {
-        Console.writeInConsole(Console.Color.BLUE,
+        Console.getInstance().print(Console.Color.BLUE,
                 "##################         NEW GAME : N      #####################\n" +
                 "##################         RESUME   : R      #####################\n" +
                 "##################         EXIT     : E      #####################\n" +
@@ -41,11 +43,15 @@ public class MainMenuView {
                     createCharacterView.run();
                     return;
                 case Options.RESUME:
-                    break;
+                    GameReader reader = new GameReader();
+                    Game game = reader.readGame("save.xml");
+                    GameView gameView = new GameView(game);
+                    gameView.run();
+                    return;
                 case Options.EXIT:
                     return;
                 default:
-                    Console.writeInConsole(Console.Color.RED, "Unrecognized value: " + answer);
+                    Console.getInstance().print(Console.Color.RED, "Unrecognized value: " + answer);
             }
         }
     }

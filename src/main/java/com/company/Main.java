@@ -7,10 +7,11 @@ import java.util.logging.Logger;
 
 public class Main {
 
-    private final static Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args) {
-        try {
+         try {
+            initConsole();
             MainMenuView mainMenu = new MainMenuView();
             mainMenu.run();
         }
@@ -20,5 +21,8 @@ public class Main {
     }
 
 
+    private static void initConsole() {
+        Console.init(System.getProperty("os.name").contains("Windows"));
+    }
 
 }

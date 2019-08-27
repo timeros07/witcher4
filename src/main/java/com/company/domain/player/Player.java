@@ -10,7 +10,6 @@ public class Player {
 
     private String name;
     private Position position;
-    private String sign;
 
     public String getName() {
         return name;
@@ -29,11 +28,7 @@ public class Player {
     }
 
     public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
+        return "$";
     }
 
     public void fight(Monster monster) throws PlayerWasKilledException {

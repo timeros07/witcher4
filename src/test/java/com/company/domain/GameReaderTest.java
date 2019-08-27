@@ -17,5 +17,8 @@ public class GameReaderTest {
         Assert.assertEquals(4, game.getWorldMap().length);
         Assert.assertNotNull(game.getWorldMap()[0][2].getMonster());
         Assert.assertNotNull(game.getWorldMap()[1][1].getMonster());
+        Assert.assertEquals("Anonymouse", game.getPlayer().getName());
+        Assert.assertEquals(0, game.getPlayer().getPosition().getX());
+        Assert.assertEquals(0, game.getPlayer().getPosition().getY());
     }
 }
