@@ -1,4 +1,4 @@
-package com.company.domain.world;
+package com.company.domain.game;
 
 import com.company.application.exceptions.StepOutOfMapException;
 import com.company.domain.character.Monster;
@@ -6,9 +6,6 @@ import com.company.domain.character.Player;
 
 import java.util.List;
 
-/**
- * TODO moze zamiast konstruktora fabryke
- */
 public class Game {
     private Point[][] worldMap;
     private Player player;
@@ -21,7 +18,7 @@ public class Game {
                 getWorldMap()[i][j] = new Point();
             }
         }
-        monsters.forEach(c->addMonster(c));
+        monsters.forEach(this::addMonster);
     }
 
     private void addMonster(Monster monster) {
@@ -29,21 +26,7 @@ public class Game {
     }
 
     public Monster makeStep(Direction direction) throws StepOutOfMapException {
-        Position newPosition = new Position(player.getPosition().getX(), player.getPosition().getY());
-        switch(direction) {
-            case LEFT:
-                newPosition.setY(newPosition.getY()-1);
-                break;
-            case RIGHT:
-                newPosition.setY(newPosition.getY()+1);
-                break;
-            case UP:
-                newPosition.setX(newPosition.getX()-1);
-                break;
-            case DOWN:
-                newPosition.setX(newPosition.getX()+1);
-                break;
-        }
+        Position newPosition = player.getPosition().calculateNewPosition(direction);
         if (isOutOfTheMap(newPosition)) {
             throw new StepOutOfMapException(direction);
         }
@@ -59,18 +42,15 @@ public class Game {
         return position.getX() < 0 || position.getY() < 0 || position.getX() == worldMap.length || position.getY() == worldMap.length;
     }
 
-    public Point getPointByPosition(Position position) {
+    private Point getPointByPosition(Position position) {
         return worldMap[position.getX()][position.getY()];
     }
 
     public Point[][] getWorldMap() {
         return worldMap;
     }
+
     public Player getPlayer() {
         return this.player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 }

@@ -1,10 +1,11 @@
-package com.company.domain;
+package com.company.domain.game;
 
 import com.company.application.exceptions.StepOutOfMapException;
 import com.company.domain.character.Player;
-import com.company.domain.world.Direction;
-import com.company.domain.world.Game;
-import com.company.domain.world.Position;
+import com.company.domain.game.Direction;
+import com.company.domain.game.Game;
+import com.company.domain.game.Position;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +39,7 @@ public class GameTest {
     public void leftStep_isSpace_success() throws Exception {
         game.getPlayer().setPosition(new Position(0,1));
         game.makeStep(Direction.LEFT);
+        Assert.assertEquals(new Position(0, 0), game.getPlayer().getPosition());
     }
 
     @Test(expected = StepOutOfMapException.class)
@@ -50,6 +52,7 @@ public class GameTest {
     public void rightStep_isSpace_success() throws Exception {
         game.getPlayer().setPosition(new Position(0,0));
         game.makeStep(Direction.RIGHT);
+        Assert.assertEquals(new Position(0, 1), game.getPlayer().getPosition());
     }
 
     @Test(expected = StepOutOfMapException.class)
@@ -62,6 +65,7 @@ public class GameTest {
     public void upStep_isSpace_success() throws Exception {
         game.getPlayer().setPosition(new Position(1,0));
         game.makeStep(Direction.UP);
+        Assert.assertEquals(new Position(0, 0), game.getPlayer().getPosition());
     }
 
     @Test(expected = StepOutOfMapException.class)
@@ -74,5 +78,6 @@ public class GameTest {
     public void downStep_isSpace_success() throws Exception {
         game.getPlayer().setPosition(new Position(0,0));
         game.makeStep(Direction.DOWN);
+        Assert.assertEquals(new Position(1, 0), game.getPlayer().getPosition());
     }
 }

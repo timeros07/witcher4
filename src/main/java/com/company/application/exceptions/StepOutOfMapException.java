@@ -1,17 +1,10 @@
 package com.company.application.exceptions;
 
-import com.company.domain.world.Direction;
+import com.company.domain.game.Direction;
 
-public class StepOutOfMapException extends Exception {
-
-    private Direction direction;
+public class StepOutOfMapException extends ApplicationException {
 
     public StepOutOfMapException(Direction direction) {
-        this.direction = direction;
-    }
-
-    @Override
-    public String getMessage() {
-        return "You cannot go: " + direction.name().toLowerCase() + ", It's out of a map !!!";
+        super("You cannot go: " + direction.name().toLowerCase() + ", It's out of a map !!!");
     }
 }

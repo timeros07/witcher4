@@ -1,8 +1,9 @@
-package com.company.domain;
+package com.company.domain.character;
 
 import com.company.application.exceptions.PlayerWasKilledException;
 import com.company.domain.character.Monster;
 import com.company.domain.character.Player;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,7 @@ public class PlayerTest {
         Monster monster = new Monster();
         monster.setPower(50);
         player.fight(monster);
+        Assert.assertNotNull(player);
     }
 
     @Test(expected = PlayerWasKilledException.class)
@@ -35,6 +37,7 @@ public class PlayerTest {
         Monster monster = new Monster();
         monster.setPower(60);
         player.fight(monster);
+        Assert.assertNotNull(player);
     }
 
     @Test
@@ -42,5 +45,6 @@ public class PlayerTest {
         Monster monster = new Monster();
         monster.setPower(5);
         player.fight(monster);
+        Assert.assertNotNull(player);
     }
 }

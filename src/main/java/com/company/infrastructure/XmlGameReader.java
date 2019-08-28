@@ -1,16 +1,17 @@
 package com.company.infrastructure;
 
-import com.company.application.exceptions.SystemException;
-import com.company.domain.character.Player;
-import com.company.domain.world.Game;
+import com.company.application.exceptions.ApplicationException;
 import com.company.domain.character.Monster;
-import com.company.domain.world.Position;
+import com.company.domain.character.Player;
+import com.company.domain.game.Game;
+import com.company.domain.game.Position;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,19 +22,19 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameReader {
+public class XmlGameReader {
 
-    public Game readGame(String path) throws SystemException {
+    public Game readGameFromFile(String path) throws ApplicationException {
         Document document;
         try {
-            document = readXmlFile( new FileInputStream(path));
+            document = readXmlFile(new FileInputStream(path));
         } catch (FileNotFoundException e) {
             return null;
         }
         return readGame(document);
     }
 
-    public Game readDefaultGame() throws SystemException {
+    public Game readDefaultGame() throws ApplicationException {
         Document document = readXmlFile(readFileFromJar());
         return readGame(document);
     }
@@ -79,22 +80,23 @@ public class GameReader {
         return new Position(x, y);
     }
 
-    private InputStream readFileFromJar() throws SystemException {
+    private InputStream readFileFromJar() throws ApplicationException {
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("default.xml");
         if (inputStream == null) {
-            throw new SystemException("default.xml not found");
+            throw new ApplicationException("default.xml not found");
         }
         return inputStream;
     }
 
-    private Document readXmlFile(InputStream inputStream) throws SystemException {
+    private Document readXmlFile(InputStream inputStream) throws ApplicationException {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             return dBuilder.parse(inputStream);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            throw new SystemException("Unexpected exception during file reading: " + e.getMessage());
+            throw new ApplicationException("Unexpected exception during file reading: " + e.getMessage());
         }
     }
 }

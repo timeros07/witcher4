@@ -1,8 +1,8 @@
 package com.company.ui;
 
-import com.company.application.GameService;
-import com.company.application.exceptions.SystemException;
-import com.company.domain.world.Game;
+import com.company.application.exceptions.ApplicationException;
+import com.company.domain.GameService;
+import com.company.domain.game.Game;
 import com.company.ui.view.CreateCharacterView;
 import com.company.ui.view.GameView;
 import com.company.ui.view.MainMenuView;
@@ -10,6 +10,10 @@ import com.company.ui.view.MainMenuView;
 public class ViewDispatcher {
 
     private static ViewDispatcher instance;
+
+    private MainMenuView mainMenuView;
+    private CreateCharacterView createCharacterView;
+    private GameView gameView;
 
     public static ViewDispatcher getInstance() {
         assert (instance != null);
@@ -20,25 +24,21 @@ public class ViewDispatcher {
         instance = new ViewDispatcher(gameService);
     }
 
-    private MainMenuView mainMenuView;
-    private CreateCharacterView createCharacterView;
-    private GameView gameView;
-
     private ViewDispatcher(GameService gameService) {
         this.mainMenuView = new MainMenuView(gameService);
         this.createCharacterView = new CreateCharacterView(gameService);
         this.gameView = new GameView(gameService);
     }
 
-    public void runCreateCharacterView() throws SystemException {
+    public void runCreateCharacterView() throws ApplicationException {
         this.createCharacterView.run();
     }
 
-    public void runMainMenuView() throws SystemException {
+    public void runMainMenuView() throws ApplicationException {
         this.mainMenuView.run();
     }
 
-    public void runGameView(Game game) throws SystemException {
+    public void runGameView(Game game) throws ApplicationException {
         this.gameView.run(game);
     }
 }

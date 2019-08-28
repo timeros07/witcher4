@@ -1,8 +1,8 @@
 package com.company.application.exceptions;
 
-public class NoPreviousGameException extends SystemException {
+public class NoPreviousGameException extends ApplicationException {
 
-    public NoPreviousGameException(String message) {
-        super(message);
+    public NoPreviousGameException() {
+        super("There is no previous game");
     }
 }

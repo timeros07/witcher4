@@ -1,5 +1,6 @@
 package com.company.ui;
 
+import java.io.PrintStream;
 import java.util.logging.Logger;
 
 /**
@@ -10,15 +11,9 @@ public class Console {
     private static Console instance;
     private static final Logger LOGGER = Logger.getLogger(Console.class.getName());
 
-    private boolean isWindows;
-
     public static Console getInstance() {
         assert (instance != null);
         return instance;
-    }
-
-    private Console(boolean isWindows) {
-        this.isWindows = isWindows;
     }
 
     public static void init(boolean isWindows) {
@@ -28,14 +23,19 @@ public class Console {
         instance = new Console(isWindows);
     }
 
+    private boolean isWindows;
+    private PrintStream printer;
+
+    private Console(boolean isWindows) {
+        this.isWindows = isWindows;
+        this.printer = System.out;
+    }
+
     public enum Color {
         RESET("\u001B[0m"),
-        BLACK("\u001B[30m"),
         RED("\u001B[31m"),
         GREEN("\u001B[32m"),
-        YELLOW("\u001B[33m"),
-        BLUE("\u001B[34m"),
-        WHITE("\u001B[37m");
+        BLUE("\u001B[34m");
 
         private final String ansiCode;
 
@@ -45,15 +45,19 @@ public class Console {
     }
 
 
-    public void print(Color color, String text) {
+    public void printLine(Color color, String text) {
         if (isWindows) {
-            print(text);
+            printLine(text);
         } else {
-            System.out.println(color.ansiCode + text + Color.RESET.ansiCode);
+            printer.println(color.ansiCode + text + Color.RESET.ansiCode);
         }
     }
 
+    public void printLine(String text) {
+        printer.println(text);
+    }
+
     public void print(String text) {
-        System.out.println(text);
+        printer.print(text);
     }
 }

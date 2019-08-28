@@ -1,11 +1,9 @@
-package com.company.domain;
+package com.company.infrastructure;
 
 import com.company.domain.character.Player;
-import com.company.domain.world.Game;
+import com.company.domain.game.Game;
 import com.company.domain.character.Monster;
-import com.company.domain.world.Position;
-import com.company.infrastructure.GameReader;
-import com.company.infrastructure.GameWriter;
+import com.company.domain.game.Position;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,11 +18,11 @@ import java.util.Arrays;
  * Created by Tomasz Woznicki on 2019-08-27.
  */
 @RunWith(JUnit4.class)
-public class GameWriterTest {
+public class XmlGameWriterTest {
 
     private Game game;
-    private GameWriter writer;
-    private GameReader gameReader;
+    private XmlGameWriter writer;
+    private XmlGameReader gameReader;
 
     @Before
     public void init() {
@@ -45,8 +43,8 @@ public class GameWriterTest {
         player.setPosition(new Position(1,2));
 
         this.game = new Game(4, Arrays.asList(wyvern, alghoul), player);
-        this.writer = new GameWriter();
-        this.gameReader = new GameReader();
+        this.writer = new XmlGameWriter();
+        this.gameReader = new XmlGameReader();
     }
 
     @After
@@ -58,7 +56,7 @@ public class GameWriterTest {
     @Test
     public void saveDefaultGame_success() throws Throwable {
         writer.saveGame("tmp.xml", game);
-        Game newGame = gameReader.readGame("tmp.xml");
+        Game newGame = gameReader.readGameFromFile("tmp.xml");
 
         Assert.assertEquals(game.getWorldMap().length, newGame.getWorldMap().length);
         Assert.assertEquals(game.getPlayer().getName(), newGame.getPlayer().getName());

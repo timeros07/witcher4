@@ -1,7 +1,7 @@
 package com.company.domain.character;
 
 import com.company.application.exceptions.PlayerWasKilledException;
-import com.company.domain.world.Position;
+import com.company.domain.game.Position;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,10 +24,6 @@ public class Player {
 
     public void setPosition(Position position) {
         this.position = position;
-    }
-
-    public String getSign() {
-        return "$";
     }
 
     public int getPlayerPower() {

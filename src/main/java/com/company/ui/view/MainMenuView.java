@@ -1,9 +1,10 @@
 package com.company.ui.view;
 
-import com.company.application.GameService;
-import com.company.application.exceptions.SystemException;
-import com.company.domain.world.Game;
+import com.company.domain.GameService;
+import com.company.application.exceptions.ApplicationException;
+import com.company.domain.game.Game;
 import com.company.ui.Console;
+import com.company.ui.Images;
 import com.company.ui.ViewDispatcher;
 
 import java.util.Scanner;
@@ -13,11 +14,9 @@ import java.util.Scanner;
  */
 public class MainMenuView {
 
-    class Options {
-        public static final String NEW_GAME = "N";
-        public static final String RESUME = "R";
-        public static final String EXIT = "E";
-    }
+    private static final String NEW_GAME = "N";
+    private static final String RESUME = "R";
+    private static final String EXIT = "E";
 
     private GameService gameService;
 
@@ -25,13 +24,14 @@ public class MainMenuView {
         this.gameService = gameService;
     }
 
-    public void run() throws SystemException {
+    public void run() throws ApplicationException {
         showMenuWithLogo();
         readUserInput();
     }
 
     public void showMenuWithLogo() {
-        Console.getInstance().print(Console.Color.BLUE,
+        Console.getInstance().printLine(Console.Color.GREEN, Images.LOGO);
+        Console.getInstance().printLine(Console.Color.BLUE,
                 "##################         NEW GAME : N      #####################\n" +
                 "##################         RESUME   : R      #####################\n" +
                 "##################         EXIT     : E      #####################\n" +
@@ -40,22 +40,22 @@ public class MainMenuView {
     }
 
 
-    private void readUserInput() throws SystemException {
+    private void readUserInput() throws ApplicationException {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String answer = scanner.nextLine();
             switch(answer) {
-                case Options.NEW_GAME:
+                case NEW_GAME:
                     ViewDispatcher.getInstance().runCreateCharacterView();
                     return;
-                case Options.RESUME:
+                case RESUME:
                     Game game = gameService.loadPreviousGame();
                     ViewDispatcher.getInstance().runGameView(game);
                     return;
-                case Options.EXIT:
+                case EXIT:
                     return;
                 default:
-                    Console.getInstance().print(Console.Color.RED, "Unrecognized value: " + answer);
+                    Console.getInstance().printLine(Console.Color.RED, "Unrecognized value: " + answer);
             }
         }
     }

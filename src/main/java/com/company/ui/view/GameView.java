@@ -1,13 +1,13 @@
 package com.company.ui.view;
 
-import com.company.application.GameService;
+import com.company.domain.GameService;
+import com.company.application.exceptions.ApplicationException;
 import com.company.application.exceptions.PlayerWasKilledException;
 import com.company.application.exceptions.StepOutOfMapException;
-import com.company.application.exceptions.SystemException;
-import com.company.domain.world.Direction;
-import com.company.domain.world.Game;
 import com.company.domain.character.Monster;
-import com.company.domain.world.Position;
+import com.company.domain.game.Direction;
+import com.company.domain.game.Game;
+import com.company.domain.game.Position;
 import com.company.ui.Console;
 import com.company.ui.Images;
 
@@ -26,9 +26,9 @@ public class GameView {
         this.gameService = gameService;
     }
 
-    public void run(Game game) throws SystemException {
+    public void run(Game game) throws ApplicationException {
         this.game = game;
-        Console.getInstance().print(Console.Color.BLUE, "Game started!!!");
+        Console.getInstance().printLine(Console.Color.BLUE, "Game started!!!");
         showMenu();
         showMap();
         try {
@@ -38,18 +38,23 @@ public class GameView {
         }
     }
 
-    public void showMap() {
+    private void showMap() {
         StringBuilder builder = new StringBuilder();
         builder.append("\n#############     MAP     ###################\n");
-        builder.append("Your position" + " - " + game.getPlayer().getSign() + ", Monsters - X\n\t\t");
+        builder.append("Your position");
+        builder.append(" - ");
+        builder.append(Images.PLAYER_SIGN);
+        builder.append("(");
+        builder.append(game.getPlayer().getName());
+        builder.append("), Monsters - X\n\t\t");
         for (int i = 0; i < game.getWorldMap().length; i++) {
             for (int j = 0; j < game.getWorldMap()[i].length; j++) {
                 builder.append("|");
                 if (game.getPlayer().getPosition().equals(new Position(i, j))) {
-                    builder.append(game.getPlayer().getSign());
+                    builder.append(Images.PLAYER_SIGN);
                 } else {
                     Monster monster = game.getWorldMap()[i][j].getMonster();
-                    builder.append(monster != null ? monster.getSign() : "_");
+                    builder.append(monster != null ? Images.MONSTER_SIGN : Images.EMPTY_SIGN);
                 }
                 if (j == game.getWorldMap()[i].length - 1) {
                     builder.append("|");
@@ -58,11 +63,11 @@ public class GameView {
             builder.append("\n\t\t");
         }
         builder.append("\n#############################################\n");
-        Console.getInstance().print(Console.Color.GREEN, builder.toString());
+        Console.getInstance().printLine(Console.Color.GREEN, builder.toString());
     }
 
-    public void showMenu() {
-        Console.getInstance().print("###########     CONTROL     ############\n" +
+    private void showMenu() {
+        Console.getInstance().printLine("###########     CONTROL     ############\n" +
                 "Choose option and press enter.\n" +
                 "\t\tUp    : U\n" +
                 "\t\tDown  : D\n" +
@@ -74,7 +79,7 @@ public class GameView {
                 "============================================");
     }
 
-    public void readUserInput() throws PlayerWasKilledException, SystemException {
+    private void readUserInput() throws ApplicationException {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String answer = scanner.nextLine();
@@ -93,43 +98,44 @@ public class GameView {
                     break;
                 case "S":
                     gameService.saveGame(this.game);
-                    Console.getInstance().print("Game successfully saved");
+                    Console.getInstance().printLine("Game successfully saved");
                     break;
                 case "E":
                     return;
                 default:
-                    Console.getInstance().print(Console.Color.RED, "Unrecognized value: " + answer);
+                    Console.getInstance().printLine(Console.Color.RED, "Unrecognized value: " + answer);
             }
-
         }
     }
 
-    public void makeStep(Direction direction) throws PlayerWasKilledException {
+    private void makeStep(Direction direction) throws PlayerWasKilledException {
         try {
             Monster monster = game.makeStep(direction);
             if (monster != null) {
-                Console.getInstance().print(Console.Color.RED, "Yo've just met a monster!!!, you must fight");
-                Console.getInstance().print(Images.MONSTER);
-                Console.getInstance().print("\t\t" + monster.getName() + "\n" + monster.getDescription());
-                Console.getInstance().print("###########     FIGHT     ############");
+                Console.getInstance().printLine(Console.Color.RED, "Yo've just met a monster!!!, you must fight");
+                Console.getInstance().printLine(Images.MONSTER);
+                Console.getInstance().printLine("\t\t" + monster.getName() + "\n" + monster.getDescription());
+                Console.getInstance().printLine("###########     FIGHT     ############");
                 for (int i = 0; i < 38; i++) {
-                    System.out.print(".");
+                    Console.getInstance().print(".");
                     Thread.sleep(150);
                 }
-                System.out.print("\n");
-
+                Console.getInstance().print("\n");
                 game.getPlayer().fight(monster);
-                Console.getInstance().print("You win !!!!! Monster is dead");
+                Console.getInstance().printLine("You win !!!!! Monster is dead");
             }
-        } catch (StepOutOfMapException | InterruptedException e) {
-            Console.getInstance().print(Console.Color.RED, e.getMessage());
+        } catch (StepOutOfMapException e) {
+            Console.getInstance().printLine(Console.Color.RED, e.getMessage());
+        } catch (InterruptedException e) {
+            Console.getInstance().printLine(Console.Color.RED, e.getMessage());
+            Thread.currentThread().interrupt();
         }
         showMenu();
         showMap();
     }
 
     private void endGameBecausePlayerWasKilled() {
-        Console.getInstance().print(Console.Color.RED, "###########   GAME OVER   ############");
-        Console.getInstance().print(Console.Color.RED, Images.GAME_OVER);
+        Console.getInstance().printLine(Console.Color.RED, "###########   GAME OVER   ############");
+        Console.getInstance().printLine(Console.Color.RED, Images.GAME_OVER);
     }
 }

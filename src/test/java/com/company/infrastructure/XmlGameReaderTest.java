@@ -1,18 +1,17 @@
-package com.company.domain;
+package com.company.infrastructure;
 
-import com.company.domain.world.Game;
-import com.company.infrastructure.GameReader;
+import com.company.domain.game.Game;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-public class GameReaderTest {
+public class XmlGameReaderTest {
 
     @Test
     public void readDefaultFile_success() throws Throwable {
-        GameReader reader = new GameReader();
+        XmlGameReader reader = new XmlGameReader();
         Game game = reader.readDefaultGame();
         Assert.assertEquals(4, game.getWorldMap().length);
         Assert.assertNotNull(game.getWorldMap()[0][2].getMonster());

@@ -1,14 +1,15 @@
 package com.company.infrastructure;
 
-import com.company.application.exceptions.SystemException;
-import com.company.domain.character.Player;
-import com.company.domain.world.Game;
+import com.company.application.exceptions.ApplicationException;
 import com.company.domain.character.Monster;
-import com.company.domain.world.Point;
-import com.company.domain.world.Position;
+import com.company.domain.character.Player;
+import com.company.domain.game.Game;
+import com.company.domain.game.Point;
+import com.company.domain.game.Position;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,21 +23,22 @@ import java.io.File;
 /**
  * Created by Tomasz Woznicki on 2019-08-27.
  */
-public class GameWriter {
+public class XmlGameWriter {
 
-    public void saveGame(String path, Game game) throws SystemException {
+    public void saveGame(String path, Game game) throws ApplicationException {
         Document document = initNewDocument();
         writeContent(document, game);
         saveFile(document, path);
     }
 
-    private Document initNewDocument() throws SystemException {
+    private Document initNewDocument() throws ApplicationException {
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             return docBuilder.newDocument();
         } catch (ParserConfigurationException e) {
-            throw new SystemException("Unexpected exception during document creation: " + e.getMessage());
+            throw new ApplicationException("Unexpected exception during document creation: " + e.getMessage());
         }
     }
 
@@ -90,15 +92,17 @@ public class GameWriter {
         return element;
     }
 
-    private void saveFile(Document doc, String path) throws SystemException {
+    private void saveFile(Document doc, String path) throws ApplicationException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         try {
+            transformerFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             Transformer transformer = transformerFactory.newTransformer();
+
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File(path));
             transformer.transform(source, result);
         } catch (TransformerException e) {
-            throw new SystemException("Unexpected error during file saving:" + e.getMessage());
+            throw new ApplicationException("Unexpected error during file saving:" + e.getMessage());
         }
     }
 

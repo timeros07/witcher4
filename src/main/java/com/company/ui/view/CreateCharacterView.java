@@ -1,8 +1,8 @@
 package com.company.ui.view;
 
-import com.company.application.GameService;
-import com.company.application.exceptions.SystemException;
-import com.company.domain.world.*;
+import com.company.domain.GameService;
+import com.company.application.exceptions.ApplicationException;
+import com.company.domain.game.*;
 import com.company.ui.Console;
 import com.company.ui.ViewDispatcher;
 
@@ -19,13 +19,13 @@ public class CreateCharacterView {
         this.gameService = gameService;
     }
 
-    public void run() throws SystemException {
-        Console.getInstance().print(Console.Color.BLUE, "##################         CHARACTER CREATION      #####################");
-        Console.getInstance().print(Console.Color.BLUE, "Provide character's name:");
+    public void run() throws ApplicationException {
+        Console.getInstance().printLine(Console.Color.BLUE, "##################         CHARACTER CREATION      #####################");
+        Console.getInstance().printLine(Console.Color.BLUE, "Provide character's name:");
 
         Scanner scanner = new Scanner(System.in);
         String playerName = scanner.nextLine();
-        Console.getInstance().print(Console.Color.BLUE, "Welcome " + playerName + ", let's start a game...");
+        Console.getInstance().printLine(Console.Color.BLUE, "Welcome " + playerName + ", let's start a game...");
         Game game = gameService.startNewGame(playerName);
         ViewDispatcher.getInstance().runGameView(game);
     }

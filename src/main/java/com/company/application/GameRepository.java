@@ -1,13 +1,13 @@
 package com.company.application;
 
-import com.company.application.exceptions.SystemException;
-import com.company.domain.world.Game;
+import com.company.application.exceptions.ApplicationException;
+import com.company.domain.game.Game;
 
 public interface GameRepository {
 
-    Game readDefaultGame() throws SystemException;
+    Game readDefaultGame() throws ApplicationException;
 
-    void saveGame(Game game) throws SystemException;
+    void saveGame(Game game) throws ApplicationException;
 
-    Game readPreviousGame() throws SystemException;
+    Game readPreviousGame() throws ApplicationException;
 }

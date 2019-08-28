@@ -1,18 +1,13 @@
 package com.company.domain.character;
 
-import com.company.domain.world.Position;
-
-import java.util.List;
+import com.company.domain.game.Position;
 
 public class Monster {
+
     private String name;
     private String description;
     private Position position;
     private int power = 0;
-
-    public String getSign() {
-        return "X";
-    }
 
     public String getName() {
         return name;

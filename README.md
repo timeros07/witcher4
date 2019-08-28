@@ -22,6 +22,3 @@ java -jar target\witcher4.jar
 docker build -f src/main/resources/Dockerfile . -t witcher4:latest
 docker run -i -t witcher4:latest
 ```
-## Running the tests
-
-Explain how to run the automated tests for this system
