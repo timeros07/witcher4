@@ -40,13 +40,7 @@ public class GameView {
 
     private void showMap() {
         StringBuilder builder = new StringBuilder();
-        builder.append("\n#############     MAP     ###################\n");
-        builder.append("Your position");
-        builder.append(" - ");
-        builder.append(Images.PLAYER_SIGN);
-        builder.append("(");
-        builder.append(game.getPlayer().getName());
-        builder.append("), Monsters - X\n\t\t");
+        addMapHeader(builder);
         for (int i = 0; i < game.getWorldMap().length; i++) {
             for (int j = 0; j < game.getWorldMap()[i].length; j++) {
                 builder.append("|");
@@ -64,6 +58,16 @@ public class GameView {
         }
         builder.append("\n#############################################\n");
         Console.getInstance().printLine(Console.Color.GREEN, builder.toString());
+    }
+
+    private void addMapHeader(StringBuilder builder) {
+        builder.append("\n#############     MAP     ###################\n");
+        builder.append("Your position");
+        builder.append(" - ");
+        builder.append(Images.PLAYER_SIGN);
+        builder.append("(");
+        builder.append(game.getPlayer().getName());
+        builder.append("), Monsters - X\n\t\t");
     }
 
     private void showMenu() {
@@ -112,17 +116,7 @@ public class GameView {
         try {
             Monster monster = game.makeStep(direction);
             if (monster != null) {
-                Console.getInstance().printLine(Console.Color.RED, "Yo've just met a monster!!!, you must fight");
-                Console.getInstance().printLine(Images.MONSTER);
-                Console.getInstance().printLine("\t\t" + monster.getName() + "\n" + monster.getDescription());
-                Console.getInstance().printLine("###########     FIGHT     ############");
-                for (int i = 0; i < 38; i++) {
-                    Console.getInstance().print(".");
-                    Thread.sleep(150);
-                }
-                Console.getInstance().print("\n");
-                game.getPlayer().fight(monster);
-                Console.getInstance().printLine("You win !!!!! Monster is dead");
+                simulateFight(monster);
             }
         } catch (StepOutOfMapException e) {
             Console.getInstance().printLine(Console.Color.RED, e.getMessage());
@@ -132,6 +126,20 @@ public class GameView {
         }
         showMenu();
         showMap();
+    }
+
+    private void simulateFight(Monster monster) throws InterruptedException, PlayerWasKilledException {
+        Console.getInstance().printLine(Console.Color.RED, "Yo've just met a monster!!!, you must fight");
+        Console.getInstance().printLine(Images.MONSTER);
+        Console.getInstance().printLine("\t\t" + monster.getName() + "\n" + monster.getDescription());
+        Console.getInstance().printLine("###########     FIGHT     ############");
+        for (int i = 0; i < 38; i++) {
+            Console.getInstance().print(".");
+            Thread.sleep(150);
+        }
+        Console.getInstance().print("\n");
+        game.getPlayer().fight(monster);
+        Console.getInstance().printLine("You win !!!!! Monster is dead");
     }
 
     private void endGameBecausePlayerWasKilled() {
